@@ -94,6 +94,11 @@ namespace ASTImpl {
 		}
 	};
 
+	class CellExpr : public Expr {
+	public:
+		void Evaluate(){}
+	};
+
 	namespace {
 		class BinaryOpExpr final : public Expr {
 		public:

@@ -362,3 +362,17 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /dist
+/.$cache_invalidation.drawio.bkp
+/.$cache_invalidation.drawio.dtmp
+/.$cyclic_dependencies.drawio.bkp
+/.$formula_calculation.drawio.bkp
+/.$new_cell.drawio.bkp
+/cache_invalidation.drawio
+/cache_invalidation.pdf
+/cache_invalidation.zip
+/cyclic_dependencies.drawio
+/cyclic_dependencies.pdf
+/formula_calculation.drawio
+/formula_calculation.pdf
+/new_cell.drawio
+/new_cell.pdf

@@ -19,15 +19,19 @@ namespace {
 		// Реализуйте следующие методы:
 		explicit Formula(std::string expression) : ast_(ParseFormulaAST(expression)) {	}
 
-		Value Evaluate() const override {
-			Value val;
-			try {
-				val=ast_.Execute();
-			}
-			catch (FormulaError& err) {
-				val = err;
-			}
-			return val;
+		//Value Evaluate() const override {
+		//	Value val;
+		//	try {
+		//		val=ast_.Execute();
+		//	}
+		//	catch (FormulaError& err) {
+		//		val = err;
+		//	}
+		//	return val;
+		//}
+
+		Value Evaluate(const SheetInterface& sheet) const override {
+
 		}
 
 		std::string GetExpression() const override {

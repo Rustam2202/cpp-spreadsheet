@@ -40,8 +40,7 @@ CellInterface* Sheet::GetCell(Position pos) {
 	if (!pos.IsValid()) {
 		throw InvalidPositionException("Invalid position");
 	}
-	if (pos.row >= static_cast<int>(table_.size()) ||
-		pos.col >= static_cast<int>(table_[pos.row].size())) {
+	if (pos.row >= static_cast<int>(table_.size()) || pos.col >= static_cast<int>(table_[pos.row].size())) {
 		return nullptr;
 	}
 	return table_[pos.row][pos.col].get();
