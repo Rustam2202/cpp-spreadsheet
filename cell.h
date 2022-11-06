@@ -10,24 +10,24 @@ class Sheet;
 
 class Cell : public CellInterface {
 public:
-    Cell(SheetInterface& sheet);
-    ~Cell();
+	Cell(const SheetInterface& sheet);
+	~Cell();
 
-    void Set(std::string text);
-    void Clear();
+	void Set(std::string text);
+	void Clear();
 
-    Value GetValue() const override;
-    std::string GetText() const override;
-    std::vector<Position> GetReferencedCells() const override;
+	Value GetValue() const override;
+	std::string GetText() const override;
+	std::vector<Position> GetReferencedCells() const override;
 
-    bool IsReferenced() const;
+	bool IsReferenced() const;
 
 private:
-    class Impl;
-    class EmptyImpl;
-    class TextImpl;
-    class FormulaImpl;
+	class Impl;
+	class EmptyImpl;
+	class TextImpl;
+	class FormulaImpl;
 
-    std::unique_ptr<Impl> impl_;
-    SheetInterface& sheet_;
+	std::unique_ptr<Impl> impl_;
+	const SheetInterface& sheet_;
 };

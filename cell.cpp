@@ -22,6 +22,9 @@ public:
 	std::string GetText() const override {
 		return {};
 	}
+	std::vector<Position> GetReferencedCells() const override {
+		return {};
+	}
 };
 
 class Cell::TextImpl :public Impl {
@@ -65,6 +68,7 @@ public:
 		}
 		return std::visit([](const auto& x) { return Value(x); }, *cache_);
 	}
+
 	std::string GetText() const override {
 		return FORMULA_SIGN + formula_->GetExpression();
 	}
@@ -81,7 +85,11 @@ private:
 };
 
 //Cell::Cell() : impl_(std::make_unique<Cell::EmptyImpl>()) {}
-Cell::Cell(SheetInterface& sheet) : impl_(std::make_unique<EmptyImpl>()), sheet_(sheet) {}
+Cell::Cell(const SheetInterface& sheet) :
+	impl_(std::make_unique<EmptyImpl>()),
+	sheet_(sheet) 
+{}
+
 Cell::~Cell() {}
 
 void Cell::Set(std::string text) {
@@ -89,7 +97,7 @@ void Cell::Set(std::string text) {
 		impl_ = std::make_unique<EmptyImpl>();
 	}
 	else if (text.size() > 1 && text.at(0) == FORMULA_SIGN) {
-		impl_ = std::make_unique<FormulaImpl>(text,sheet_);
+		impl_ = std::make_unique<FormulaImpl>(text, sheet_);
 	}
 	else {
 		impl_ = std::make_unique<TextImpl>(text);
@@ -108,7 +116,7 @@ std::string Cell::GetText() const {
 	return impl_->GetText();
 }
 
-std::vector<Position> Cell::GetReferencedCells() const  {
+std::vector<Position> Cell::GetReferencedCells() const {
 	return impl_->GetReferencedCells();
 }
 
