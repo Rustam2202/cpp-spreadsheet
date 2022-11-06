@@ -1,33 +1,33 @@
-#pragma once
+﻿#pragma once
 
 #include "common.h"
 #include "formula.h"
 
+#include <functional>
 #include <unordered_set>
+
+class Sheet;
 
 class Cell : public CellInterface {
 public:
-	Cell();
-	~Cell();
+    Cell(SheetInterface& sheet);
+    ~Cell();
 
-	void Set(std::string text);
-	void Clear();
-	Value GetValue() const override;
-	std::string GetText() const override;
-	std::vector<Position> GetReferencedCells();
+    void Set(std::string text);
+    void Clear();
+
+    Value GetValue() const override;
+    std::string GetText() const override;
+    std::vector<Position> GetReferencedCells() const override;
+
+    bool IsReferenced() const;
 
 private:
-	class Impl;
-	class EmptyImpl;
-	class TextImpl;
-	class FormulaImpl;
+    class Impl;
+    class EmptyImpl;
+    class TextImpl;
+    class FormulaImpl;
 
-	void CheckCircularDependency(const std::vector<Position>& position) const;
-	void CheckCircularDependencyImpl(std::unordered_set<CellInterface*>& , std::vector<Position>&);
-	void InvalidateCache(Cell* cell);
-
-
-	SheetInterface& sheet_;
-	std::unique_ptr<Impl> impl_;
-	//std::unordered_set<Cell*> cells_;
+    std::unique_ptr<Impl> impl_;
+    SheetInterface& sheet_;
 };
