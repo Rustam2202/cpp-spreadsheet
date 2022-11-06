@@ -143,8 +143,6 @@ namespace ASTImpl {
 			}
 
 			double Evaluate(const std::function<double(Position)>& args) const override {
-				// Скопируйте ваше решение из предыдущих уроков.
-
 				double lhs = lhs_->Evaluate(args);
 				double rhs = rhs_->Evaluate(args);
 
@@ -205,8 +203,6 @@ namespace ASTImpl {
 			}
 
 			double Evaluate(const std::function<double(Position)>& args) const override {
-				// Скопируйте ваше решение из предыдущих уроков.
-
 				double operand = operand_->Evaluate(args);
 				if (type_ == UnaryMinus) {
 					return operand * -1;
@@ -245,7 +241,6 @@ namespace ASTImpl {
 			}
 
 			double Evaluate(const std::function<double(Position)>& args) const override {
-				// реализуйте метод.
 				return args(*cell_);
 			}
 
@@ -295,19 +290,14 @@ namespace ASTImpl {
 
 		public:
 			void exitUnaryOp(FormulaParser::UnaryOpContext* ctx) override {
-				assert(args_.size() >= 1);
-
 				auto operand = std::move(args_.back());
-
 				UnaryOpExpr::Type type;
 				if (ctx->SUB()) {
 					type = UnaryOpExpr::UnaryMinus;
 				}
 				else {
-					assert(ctx->ADD() != nullptr);
 					type = UnaryOpExpr::UnaryPlus;
 				}
-
 				auto node = std::make_unique<UnaryOpExpr>(type, std::move(operand));
 				args_.back() = std::move(node);
 			}
@@ -320,7 +310,6 @@ namespace ASTImpl {
 				if (!in) {
 					throw ParsingError("Invalid number: " + valueStr);
 				}
-
 				auto node = std::make_unique<NumberExpr>(value);
 				args_.push_back(std::move(node));
 			}
@@ -331,20 +320,15 @@ namespace ASTImpl {
 				if (!value.IsValid()) {
 					throw FormulaException("Invalid position: " + value_str);
 				}
-
 				cells_.push_front(value);
 				auto node = std::make_unique<CellExpr>(&cells_.front());
 				args_.push_back(std::move(node));
 			}
 
 			void exitBinaryOp(FormulaParser::BinaryOpContext* ctx) override {
-				assert(args_.size() >= 2);
-
 				auto rhs = std::move(args_.back());
 				args_.pop_back();
-
 				auto lhs = std::move(args_.back());
-
 				BinaryOpExpr::Type type;
 				if (ctx->ADD()) {
 					type = BinaryOpExpr::Add;
@@ -356,10 +340,8 @@ namespace ASTImpl {
 					type = BinaryOpExpr::Multiply;
 				}
 				else {
-					assert(ctx->DIV() != nullptr);
 					type = BinaryOpExpr::Divide;
 				}
-
 				auto node = std::make_unique<BinaryOpExpr>(type, std::move(lhs), std::move(rhs));
 				args_.back() = std::move(node);
 			}

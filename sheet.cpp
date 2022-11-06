@@ -20,7 +20,7 @@ void Sheet::SetCell(Position pos, std::string text) {
 	table_[pos.row].resize(std::max(pos.col + 1, static_cast<int>(table_[pos.row].size())));
 	auto& cell = table_[pos.row][pos.col];
 	if (!cell) {
-		cell = std::make_unique<Cell>();
+		cell = std::make_unique<Cell>(*this);
 	}
 	cell->Set(std::move(text));
 }
@@ -92,6 +92,7 @@ void Sheet::PrintValues(std::ostream& output) const {
 		output << '\n';
 	}
 }
+
 void Sheet::PrintTexts(std::ostream& output) const {
 	auto size = GetPrintableSize();
 	for (int row = 0; row < size.rows; ++row) {
